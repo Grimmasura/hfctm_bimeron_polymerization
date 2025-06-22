@@ -1,5 +1,8 @@
 import numpy as np
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import argparse
 
 # Parameters
 K = 1.0
@@ -32,16 +35,32 @@ def evolve_phase(grid, steps, K, D, H_ext, J, T):
     return grid
 
 # Visualization
-def plot_phase(grid, title='Phase Space'):
+def plot_phase(grid, title='Phase Space', out_path='phase_space.png'):
+    """Save the phase grid as an image without opening a window."""
     plt.imshow(grid, cmap='coolwarm')
     plt.title(title)
     plt.colorbar()
-    plt.show()
+    plt.savefig(out_path)
+    plt.close()
 
-# Run simulation
-grid = evolve_phase(phase_grid, 10000, K, D, H_ext, J, T)
-plot_phase(grid, 'Bimeron Polymerization Prototype')
+def main():
+    parser = argparse.ArgumentParser(
+        description='Bimeron polymerization prototype simulation')
+    parser.add_argument('--steps', type=int, default=10000,
+                        help='Number of evolution steps')
+    parser.add_argument('--output', default='phase_space.png',
+                        help='Filename for saved phase plot')
+    args = parser.parse_args()
 
-# Save Codex glyph output
-glyph_array = np.sign(grid)
-np.save('bimeron_codex_glyph.npy', glyph_array)
+    grid = evolve_phase(phase_grid, args.steps, K, D, H_ext, J, T)
+    plot_phase(grid, 'Bimeron Polymerization Prototype', args.output)
+
+    glyph_array = np.sign(grid)
+    np.save('bimeron_codex_glyph.npy', glyph_array)
+    print(
+        f'Glyph array saved to bimeron_codex_glyph.npy and plot saved to {args.output}'
+    )
+
+
+if __name__ == '__main__':
+    main()

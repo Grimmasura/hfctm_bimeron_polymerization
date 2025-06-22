@@ -15,13 +15,16 @@ This package contains:
 ## How to Run Simulation:
 
 ```bash
-python3 hfctm_bimeron_polymer.py
+python3 hfctm_bimeron_polymer.py --steps 10000 --output phase_space.png
 ```
 
 Outputs:
 
-- Phase space visualization (Matplotlib)
-- Codex glyph array (`bimeron_codex_glyph.npy`)
+- Saved image `phase_space.png`
+- Codex glyph array `bimeron_codex_glyph.npy`
+
+The simulation uses a non-interactive matplotlib backend so it can run in
+headless environments.
 
 Codex Glyph Mapping Example:
 
