@@ -1,0 +1,41 @@
+# Python build and metadata
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+*.pyd
+*.pyc
+*.pyo
+
+# Virtual environments
+venv/
+ENV/
+.venv/
+
+# Distribution / packaging
+build/
+dist/
+*.wheel
+pip-wheel-metadata/
+
+# IPython
+.ipynb_checkpoints/
+
+# Numpy array files
+*.npy
+*.npz
+
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# OS files
+.DS_Store
