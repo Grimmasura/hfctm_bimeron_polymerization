@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
 
 # Parameters
 K = 1.0
@@ -10,7 +11,6 @@ T = 0.05
 
 # Initialize phase grid
 grid_size = (100, 100)
-phase_grid = np.random.choice([-1, 1], size=grid_size)
 
 # Energy computation (simple prototype)
 def compute_energy(grid, K, D, H_ext, J):
@@ -32,16 +32,29 @@ def evolve_phase(grid, steps, K, D, H_ext, J, T):
     return grid
 
 # Visualization
-def plot_phase(grid, title='Phase Space'):
+def plot_phase(grid, title='Phase Space', save_path=None):
     plt.imshow(grid, cmap='coolwarm')
     plt.title(title)
     plt.colorbar()
-    plt.show()
+    if save_path:
+        plt.savefig(save_path)
+    else:
+        plt.show()
+    plt.close()
 
-# Run simulation
-grid = evolve_phase(phase_grid, 10000, K, D, H_ext, J, T)
-plot_phase(grid, 'Bimeron Polymerization Prototype')
+def main():
+    parser = argparse.ArgumentParser(description='Bimeron polymerization simulation')
+    parser.add_argument('--steps', type=int, default=10000, help='number of evolution steps')
+    parser.add_argument('--save', metavar='PATH', help='file path to save plot')
+    args = parser.parse_args()
 
-# Save Codex glyph output
-glyph_array = np.sign(grid)
-np.save('bimeron_codex_glyph.npy', glyph_array)
+    phase_grid = np.random.choice([-1, 1], size=grid_size)
+    grid = evolve_phase(phase_grid, args.steps, K, D, H_ext, J, T)
+    plot_phase(grid, 'Bimeron Polymerization Prototype', save_path=args.save)
+
+    glyph_array = np.sign(grid)
+    np.save('bimeron_codex_glyph.npy', glyph_array)
+
+
+if __name__ == '__main__':
+    main()
